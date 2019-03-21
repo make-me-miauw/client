@@ -70,6 +70,9 @@ export default {
   },
   methods: {
     createRoom() {
+        db.collection('rooms').doc({
+            name: this.name
+        }).get()
       db.collection("rooms")
         .add({
           name: this.name,
@@ -98,6 +101,13 @@ export default {
           });
         });
     },
+    joinRoom() {
+        db.collection("rooms").doc({
+            name: this.name
+        }).update({
+            players: 
+        })
+    }
   },
 };
 </script>
