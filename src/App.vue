@@ -1,31 +1,46 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <Room/>
     <router-view/>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
+
+<script>
+import Room from '@/components/Room.vue'
+import db from "@/api/firebase.js";
+export default {
+  components: {
+    Room
+  },
+  beforeMount() {
+    db.collection('foods').get()
+    .then((foods) => {
+      foods.forEach(doc => {
+        this.$store.state.allFoods.push(doc.data())
+      });
+      console.log(this.$store.state.allFoods)
+    }, function (err) {
+      console.log(err)
+    })
+    .catch(err => {
+      console.log(err)
+    }),
+    db.collection('cats').get()
+    .then((cats) => {
+      cats.forEach(doc => {
+        this.$store.state.allCats.push(doc.data())
+        console.log(this.$store.state.allCats)
+      });
+    }, function (err) {
+      console.log(err)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+}
+</script>
