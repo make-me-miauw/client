@@ -44,10 +44,32 @@
         </div>
       </div>
     </div>
+    <div class="baris">
+      <div class="card" style="width: 18rem;">
+        <div class="card-header">Choose Room</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" v-for="item in rooms" v-bind:key="item.id">
+            <card v-bind:oneRoom="item"></card>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.baris {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  max-width: 100%;
+  padding: 0 4px;
+  vertical-align: middle;
+}
 .homeScreen {
   height: 100vh;
   background-repeat: no-repeat;
@@ -81,13 +103,16 @@
 
 <script>
 import db from "@/api/firebase.js";
-
+import card from '@/components/JoinRoom.vue'
 export default {
+  components: {
+    card
+  },
   data() {
     return {
       idRoom: "",
       name: "",
-      players: []
+      rooms: []
     };
   },
   methods: {
@@ -117,7 +142,7 @@ export default {
             animation: true,
             timer: 1500
           });
-          this.$router.push('/play');
+          this.$router.push("/play");
         })
         .catch(err => {
           console.log(err);
@@ -131,71 +156,14 @@ export default {
             timer: 1500
           });
         });
-    },
-    joinRoom(idRoom) {
-      const roomId = idRoom;
-      db.collection("rooms")
-        .doc(roomId)
-        .get()
-        .then(querysnapshot => {
-          console.log(querysnapshot.data());
-          if (!querysnapshot.data()) {
-            console.log(`no such room with name ${this.name}`);
-            Swal.fire({
-              type: "error",
-              title: `No such room with name ${this.name}`,
-              animation: true,
-              customClass: {
-                popup: "animated tada"
-              },
-              timer: 1500
-            });
-            this.name = "";
-          } else {
-            if (querysnapshot.data().players.length > 2) {
-              Swal.fire({
-                type: "error",
-                title: "Room full",
-                animation: true,
-                customClass: {
-                  popup: "animated tada"
-                },
-                timer: 1500
-              });
-            } else {
-              console.log("ini players");
-              const joinPLayer = querysnapshot.data().players;
-              joinPLayer.push({ player: "player 2", point: 0 });
-              return db
-                .collection("rooms")
-                .doc(roomId)
-                .update({
-                  players: joinPLayer
-                });
-            }
-          }
-        })
-        .then(docRef => {
-          console.log(docRef);
-          this.name = "";
-          return db
-            .collection("rooms")
-            .doc(roomId)
-            .get()
-            .then(querysnapshot => {
-              this.$store.state.roomWhoPLay = querysnapshot.data();
-              Swal.fire({
-                type: "success",
-                title: "Join room",
-                animation: true,
-                timer: 1500
-              });
-            });
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
+  },
+  mounted() {
+    db.collection("rooms").onSnapshot(querysnapshot => {
+      querysnapshot.forEach(doc => {
+        this.rooms.push(doc);
+      });
+    });
   }
 };
 </script>
