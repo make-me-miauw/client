@@ -7,10 +7,14 @@ export default new Vuex.Store({
   state: {
     allFoods: [],
     allCats: [],
-    roomWhoPLay: '',
+    roomWhoPlay: [],
   },
   mutations: {
-
+    setRoom(state, payload) {
+      // eslint-disable-next-line semi
+      // eslint-disable-next-line no-param-reassign
+      state.roomWhoPlay = payload;
+    },
   },
   actions: {
 
