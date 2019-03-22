@@ -12,7 +12,7 @@
 
 <script>
 import Room from "@/components/Room.vue";
-import Login from "@/views/loginform.vue";
+import Login from "@/views/LoginForm.vue";
 import Foods from "@/components/RandomFoods.vue";
 import db from "@/api/firebase.js";
 
