@@ -6,7 +6,7 @@
         <div class="col-sm-4 d-flex justify-content-center">
           <img :src="catImage[1].link">
         </div>
-        <div class="col-sm-4">{{rooms}}</div>
+        <div class="col-sm-4"></div>
       </div>
     </div>
     <div class="container col-sm-12 mt-5">
@@ -52,7 +52,7 @@ button {
 }
 
 .score {
-  font-family: 'Permanent Marker', cursive;
+  font-family: "Permanent Marker", cursive;
   font-size: 80px;
 }
 </style>
@@ -66,7 +66,7 @@ export default {
       allFoodImage: [],
       start: false,
       catImage: [],
-      startButton: false,
+      startButton: true,
       rooms: [],
       score1: 0,
       score2: 0,
@@ -79,9 +79,9 @@ export default {
     this.catImage = this.$store.state.allCats;
     this.rooms = this.$store.state.roomWhoPlay;
   },
-  created(){
+  created() {
     if (this.rooms.players.length == 2) {
-      this.startButton = true
+      this.startButton = true;
     }
   },
   methods: {
@@ -124,7 +124,8 @@ export default {
             title: "Player 2 win the game.",
             width: 600,
             padding: "3em",
-            background: "#fff url(https://images.pexels.com/photos/949592/pexels-photo-949592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)",
+            background:
+              "#fff url(https://images.pexels.com/photos/949592/pexels-photo-949592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)",
             backdrop: `
             rgba(0,0,123,0.4)
             url("https://thumbs.gfycat.com/RadiantJoyousGrayling-max-1mb.gif")
@@ -143,10 +144,11 @@ export default {
             title: "Player 1 win the game",
             width: 600,
             padding: "3em",
-            background: "#fff url(https://66.media.tumblr.com/b832028c117cb548614cbea10f0153dc/tumblr_mudg73OFlK1rgpyeqo1_500.gif)",
+            background:
+              "#fff url(https://images.pexels.com/photos/949592/pexels-photo-949592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)",
             backdrop: `
             rgba(0,0,123,0.4)
-            url("https://images.pexels.com/photos/949592/pexels-photo-949592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+            url("https://thumbs.gfycat.com/RadiantJoyousGrayling-max-1mb.gif")
             center left
             no-repeat
           `
@@ -154,7 +156,37 @@ export default {
         }
       }
       this.images[index] = false;
-      console.log(point);
+      if (this.click == 8) {
+        if (this.score1 > this.score2) {
+          Swal.fire({
+            title: "Player 1 win the game",
+            width: 600,
+            padding: "3em",
+            background:
+              "#fff url(https://66.media.tumblr.com/b832028c117cb548614cbea10f0153dc/tumblr_mudg73OFlK1rgpyeqo1_500.gif)",
+            backdrop: `
+            rgba(0,0,123,0.4)
+            url("https://images.pexels.com/photos/949592/pexels-photo-949592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+            center left
+            no-repeat
+          `
+          });
+        } else {
+          Swal.fire({
+            title: "Player 2 win the game.",
+            width: 600,
+            padding: "3em",
+            background:
+              "#fff url(https://images.pexels.com/photos/949592/pexels-photo-949592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)",
+            backdrop: `
+            rgba(0,0,123,0.4)
+            url("https://thumbs.gfycat.com/RadiantJoyousGrayling-max-1mb.gif")
+            center left
+            no-repeat
+          `
+          });
+        }
+      }
     }
   }
 };
