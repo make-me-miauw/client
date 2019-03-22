@@ -12,19 +12,21 @@
     <div class="container col-sm-12 mt-5">
       <div class="row">
         <div class="col-sm-4">
-          {{score}}
+          <h1>{{score1}}</h1>
         </div>
         <div class="col-sm-4 d-flex justify-content-center">
           <button class="btn btn-warning" v-if="startButton" @click="getRandom">START GAME</button>
         </div>
-        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <h1>{{score2}}</h1>
+        </div>
       </div>
     </div>
     <div class="imagesFooter col-sm-12" v-if="start">
       <div class="container d-flex justify-content-around">
         <div class="row" v-for="(random,index) in randomImages" :key="index">
           <div class="col" 
-              v-if="'index+1'">
+              v-if="images[index]">
             <img
               @click="selectImage(random.point, index)"
               :src="random.link"
@@ -57,20 +59,17 @@ export default {
       start: false,
       catImage: [],
       startButton: true,
-      score: 0,
-      '1': true,
-      '2': true,
-      '3': true,
-      '4': true,
-      '5': true,
-      '6': true,
-      '7': true,
-      '8': true
+      score1: 0,
+      score2: 0,
+      click: 0,
+      images: [true, true, true, true, true, true, true, true],
     };
   },
   mounted() {
     this.allFoodImage = this.$store.state.allFoods;
     this.catImage = this.$store.state.allCats;
+    console.log(this.$store.state.roomWhoPlay, 'ini room who play');
+    
   },
   methods: {
     getRandom() {
@@ -101,10 +100,24 @@ export default {
       return array;
     },
     selectImage(point, index) {
-      this.score += point
+      this.click += 1
+      if (this.click % 2 == 0) {
+        this.score2 += point
+        if (this.score2 <= 0) {
+          this.score2 = 0
+        } else if (this.score2 >= 100){
+          this.score2 = 100
+        }
+      } else {
+        this.score1 += point
+        if (this.score1 <= 0) {
+          this.score1 = 0
+        } else if (this.score1 >= 100){
+          this.score1 = 100
+        }
+      }
+      this.images[index] = false;
       console.log(point);
-      
-      index = index + 1
       
       
     }

@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="modal" id="myModal">
+    <div class="modal fade" id="myModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal body -->
@@ -33,7 +33,7 @@
                 <input v-model="name" placeholder="Room" class="form-control">
                 <br>
                 <br>
-                <input type="submit" class="btn btn-success" value="Create" >
+                <input type="submit" class="btn btn-success" value="Create">
               </form>
             </div>
           </div>
@@ -110,12 +110,14 @@ export default {
         .then(docRef => {
           console.log(docRef);
           this.name = "";
+          $("#myModal").modal("toggle");
           Swal.fire({
             type: "success",
             title: "Room created",
             animation: true,
             timer: 1500
           });
+          this.$router.push('/play');
         })
         .catch(err => {
           console.log(err);

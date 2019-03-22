@@ -10,7 +10,6 @@
       <!-- <div class="homeScreenOption" >
           Join Room
       </div> -->
-      <Room/>
 
     </div>
   </div>
