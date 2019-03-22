@@ -42,6 +42,8 @@ export default {
         .doc(roomId)
         .get()
         .then(querysnapshot => {
+          console.log("masuk ke filter");
+          console.log(querysnapshot.data().players);
           if (querysnapshot.data().players.length > 2) {
             console.log("masuk ke error");
             Swal.fire({
@@ -54,7 +56,7 @@ export default {
               timer: 1500
             });
           } else {
-            console.log("ini players");
+            console.log("ini masuk ke update");
             console.log(roomId);
             const joinPLayer = querysnapshot.data().players;
             joinPLayer.push({ player: "player 2", point: 0 });
@@ -68,23 +70,25 @@ export default {
           }
         })
         .then(docRef => {
+          console.log("masuk ke get one");
           console.log(docRef);
           this.name = "";
           return db
             .collection("rooms")
             .doc(roomId)
-            .get()
+            .get();
         })
-        .then(querysnapshot => {
-              this.$store.state.roomWhoPLay.players.push({ player: "player 2", point: 0 })
-              this.$router.push('/play')
-              Swal.fire({
-                type: "success",
-                title: "Join room",
-                animation: true,
-                timer: 1500
-              });
-            })
+        .then(doc => {
+          this.$store.commit('setRoom', doc.data())
+          console.log(this.$store.state.roomWhoPlay.players, "ini masuk ke store");
+          this.$router.push("/play");
+          Swal.fire({
+            type: "success",
+            title: "Join room",
+            animation: true,
+            timer: 1500
+          });
+        })
         .catch(err => {
           console.log(err);
         });
