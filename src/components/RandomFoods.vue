@@ -6,7 +6,7 @@
         <div class="col-sm-4 d-flex justify-content-center">
           <img :src="catImage[1].link">
         </div>
-        <div class="col-sm-4"></div>
+        <div class="col-sm-4">{{rooms}}</div>
       </div>
     </div>
     <div class="container col-sm-12 mt-5">
@@ -67,6 +67,7 @@ export default {
       start: false,
       catImage: [],
       startButton: false,
+      rooms: [],
       score1: 0,
       score2: 0,
       click: 0,
@@ -76,7 +77,12 @@ export default {
   mounted() {
     this.allFoodImage = this.$store.state.allFoods;
     this.catImage = this.$store.state.allCats;
-    console.log(this.$store.state.roomWhoPlay, "ini room who play");
+    this.rooms = this.$store.state.roomWhoPlay;
+  },
+  created(){
+    if (this.rooms.players.length == 2) {
+      this.startButton = true
+    }
   },
   methods: {
     getRandom() {

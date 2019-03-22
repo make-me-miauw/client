@@ -1,11 +1,6 @@
 <template>
   <div>
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#myModal"
-    >Create Room</button>
+    
     <div
       class="homeScreen"
       :style="`background-image:url(https://i.pinimg.com/originals/05/fa/3a/05fa3a162088bfb3ec94dc37b441656b.jpg)`"
