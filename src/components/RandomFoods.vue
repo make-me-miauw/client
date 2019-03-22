@@ -53,7 +53,7 @@ button {
 
 .score {
   font-family: 'Permanent Marker', cursive;
-  font-size: 70px;
+  font-size: 80px;
 }
 </style>
 
@@ -66,7 +66,7 @@ export default {
       allFoodImage: [],
       start: false,
       catImage: [],
-      startButton: true,
+      startButton: false,
       score1: 0,
       score2: 0,
       click: 0,
