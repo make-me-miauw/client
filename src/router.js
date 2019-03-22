@@ -9,6 +9,10 @@ export default new Router({
   routes: [{
     path: '/play',
     name: 'play',
-    component: () => import(/* webpackChunkName "play" */'@/components/randomFoods.vue'),
+    component: () => import(/* webpackChunkName "play" */'@/components/RandomFoods.vue'),
+  },{
+    path: '/',
+    name: 'room',
+    component: () => import(/* webpackChunkName "play" */'@/components/Room.vue'),
   }],
 });

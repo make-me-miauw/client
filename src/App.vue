@@ -1,8 +1,5 @@
 <template>
   <div>
-    <Room/>
-    <Login/>
-    <Foods/>
     <router-view/>
   </div>
 </template>
@@ -12,15 +9,11 @@
 
 <script>
 import Room from "@/components/Room.vue";
-import Login from "@/views/LoginForm.vue";
-import Foods from "@/components/RandomFoods.vue";
 import db from "@/api/firebase.js";
 
 export default {
   components: {
     Room,
-    Login,
-    Foods
   },
   beforeMount() {
     db
