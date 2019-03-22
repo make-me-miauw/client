@@ -134,6 +134,7 @@ export default {
         })
         .then(docRef => {
           console.log(docRef);
+          this.$store.state.roomWhoPLay = {id: docRef.id,name: this.name, players: [{player: 'player 1', point: 0}]}
           this.name = "";
           $("#myModal").modal("toggle");
           Swal.fire({
