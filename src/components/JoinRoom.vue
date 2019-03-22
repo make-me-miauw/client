@@ -76,7 +76,7 @@ export default {
             .get()
         })
         .then(querysnapshot => {
-              this.$store.state.roomWhoPLay = querysnapshot.data();
+              this.$store.state.roomWhoPLay.players.push({ player: "player 2", point: 0 })
               this.$router.push('/play')
               Swal.fire({
                 type: "success",
