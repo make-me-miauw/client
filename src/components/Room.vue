@@ -10,8 +10,8 @@
       type="button"
       class="btn btn-primary"
       data-toggle="modal"
-      data-target="#createModal"
-    >Create Room</button>
+      data-target="#joinModal"
+    >Join Room</button>
     <div class="modal" id="myModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div class="modal" id="createModal">
+    <div class="modal" id="joinModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal body -->
@@ -64,19 +64,27 @@ import db from "@/api/firebase.js";
 export default {
   data() {
     return {
+      idRoom: "",
       name: "",
       players: []
     };
   },
   methods: {
     createRoom() {
-        db.collection('rooms').doc({
-            name: this.name
-        }).get()
       db.collection("rooms")
-        .add({
-          name: this.name,
-          players: ["Player 1"]
+        .where("name", "==", this.name)
+        .get()
+        .then(querysnapshot => {
+          //   console.log(querysnapshot.docs.length);
+          if (querysnapshot.docs.length > 0) {
+            console.log("ruangan sudah terpakai");
+            this.name = "";
+          } else {
+            return db.collection("rooms").add({
+              name: this.name,
+              players: [{ player: "player 1", point: 0 }]
+            });
+          }
         })
         .then(docRef => {
           console.log(docRef);
@@ -89,26 +97,55 @@ export default {
           });
         })
         .catch(err => {
-            console.log(err)
-            Swal.fire({
-            type: 'error',
-            title: 'Oops, something wrong happen',
+          console.log(err);
+          Swal.fire({
+            type: "error",
+            title: "Oops, something wrong happen",
             animation: true,
             customClass: {
-              popup: 'animated tada'
+              popup: "animated tada"
             },
-            timer: 1500,
+            timer: 1500
           });
         });
     },
-    joinRoom() {
-        db.collection("rooms").doc({
-            name: this.name
-        }).update({
-            players: 
+    joinRoom(idRoom) {
+      let roomId = idRoom;
+      db.collection("rooms")
+        .doc(roomId)
+        .get()
+        .then(querysnapshot => {
+          console.log(querysnapshot.data());
+          if (!querysnapshot.data()) {
+            console.log(`no such room with name ${this.name}`);
+            this.name = "";
+          } else {
+            console.log("ini players");
+            let joinPLayer = querysnapshot.data().players;
+            joinPLayer.push({ player: "player 2", point: 0 });
+            return db
+              .collection("rooms")
+              .doc(roomId)
+              .update({
+                players: joinPLayer
+              });
+          }
+        })
+        .then(docRef => {
+          console.log(docRef);
+          this.name = "";
+          Swal.fire({
+            type: "success",
+            title: `Join room`,
+            animation: true,
+            timer: 1500
+          });
+        })
+        .catch(err => {
+            console.log(err)
         })
     }
-  },
+  }
 };
 </script>
 
