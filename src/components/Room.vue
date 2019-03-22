@@ -60,92 +60,92 @@
 </template>
 
 <script>
-import db from "@/api/firebase.js";
+import db from '@/api/firebase.js';
+
 export default {
   data() {
     return {
-      idRoom: "",
-      name: "",
-      players: []
+      idRoom: '',
+      name: '',
+      players: [],
     };
   },
   methods: {
     createRoom() {
-      db.collection("rooms")
-        .where("name", "==", this.name)
+      db.collection('rooms')
+        .where('name', '==', this.name)
         .get()
-        .then(querysnapshot => {
+        .then((querysnapshot) => {
           //   console.log(querysnapshot.docs.length);
           if (querysnapshot.docs.length > 0) {
-            console.log("ruangan sudah terpakai");
-            this.name = "";
+            console.log('ruangan sudah terpakai');
+            this.name = '';
           } else {
-            return db.collection("rooms").add({
+            return db.collection('rooms').add({
               name: this.name,
-              players: [{ player: "player 1", point: 0 }]
+              players: [{ player: 'player 1', point: 0 }],
             });
           }
         })
-        .then(docRef => {
+        .then((docRef) => {
           console.log(docRef);
-          this.name = "";
+          this.name = '';
           Swal.fire({
-            type: "success",
-            title: `Room created`,
+            type: 'success',
+            title: 'Room created',
             animation: true,
-            timer: 1500
+            timer: 1500,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           Swal.fire({
-            type: "error",
-            title: "Oops, something wrong happen",
+            type: 'error',
+            title: 'Oops, something wrong happen',
             animation: true,
             customClass: {
-              popup: "animated tada"
+              popup: 'animated tada',
             },
-            timer: 1500
+            timer: 1500,
           });
         });
     },
     joinRoom(idRoom) {
-      let roomId = idRoom;
-      db.collection("rooms")
+      const roomId = idRoom;
+      db.collection('rooms')
         .doc(roomId)
         .get()
-        .then(querysnapshot => {
+        .then((querysnapshot) => {
           console.log(querysnapshot.data());
           if (!querysnapshot.data()) {
             console.log(`no such room with name ${this.name}`);
-            this.name = "";
+            this.name = '';
           } else {
-            console.log("ini players");
-            let joinPLayer = querysnapshot.data().players;
-            joinPLayer.push({ player: "player 2", point: 0 });
+            console.log('ini players');
+            const joinPLayer = querysnapshot.data().players;
+            joinPLayer.push({ player: 'player 2', point: 0 });
             return db
-              .collection("rooms")
+              .collection('rooms')
               .doc(roomId)
               .update({
-                players: joinPLayer
+                players: joinPLayer,
               });
           }
         })
-        .then(docRef => {
+        .then((docRef) => {
           console.log(docRef);
-          this.name = "";
+          this.name = '';
           Swal.fire({
-            type: "success",
-            title: `Join room`,
+            type: 'success',
+            title: 'Join room',
             animation: true,
-            timer: 1500
+            timer: 1500,
           });
         })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-  }
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
-

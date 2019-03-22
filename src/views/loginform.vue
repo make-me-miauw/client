@@ -7,9 +7,10 @@
           Create Room
       </div>
 
-      <div class="homeScreenOption" >
+      <!-- <div class="homeScreenOption" >
           Join Room
-      </div>
+      </div> -->
+      <Room/>
 
     </div>
   </div>
@@ -40,7 +41,8 @@ export default {
   }
   .homeScreenOption {
     border: 2px solid #92ced6;
-    border-radius: 15px;
+    border-radius: 50%;
+    background-color: antiquewhite;
     color: #92ced6;
     padding: 10px;
     font-size: 18px;
